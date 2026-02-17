@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customizable Snake Game</title>
+    <style>
+/* ==========================================
+   CUSTOMIZATION SECTION - EASY TO MODIFY
+   ========================================== */
+
+/* Color Scheme - Change these to customize your theme */
+:root {
+    --primary-color: #4CAF50;
+    --secondary-color: #FF5722;
+    --bg-dark: #0a0a0a;
+    --bg-medium: #1a1a1a;
+    --bg-light: #2a2a2a;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --border-color: #333;
+}
+
+/* Font Settings */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+}
+
+/* ========================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-medium) 100%);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    text-align: center;
+    background: var(--bg-light);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+    max-width: 600px;
+    width: 100%;
+}
+
+h1 {
+    margin-bottom: 20px;
+    font-size: 2.5em;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Controls Section */
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 20px;
+    background: var(--bg-medium);
+    border-radius: 10px;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.control-group label {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+input[type="color"] {
+    width: 50px;
+    height: 35px;
+    border: 2px solid var(--border-color);
+    border-radius: 5px;
+    cursor: pointer;
+    background: transparent;
+}
+
+select {
+    padding: 8px 12px;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#startBtn {
+    background: linear-gradient(135deg, var(--primary-color), #66BB6A);
+    color: white;
+}
+
+#startBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+}
+
+#resetBtn {
+    background: linear-gradient(135deg, #757575, #9E9E9E);
+    color: white;
+}
+
+#resetBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(117, 117, 117, 0.4);
+}
+
+/* Canvas */
+#gameCanvas {
+    display: block;
+    margin: 0 auto;
+    border: 3px solid var(--border-color);
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    background: #1a1a1a;
+}
+
+/* Score Display */
+.score-display {
+    margin-top: 20px;
+    padding: 15px;
+    background: var(--bg-medium);
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+.score-display p {
+    font-size: 1.2em;
+    margin: 0;
+}
+
+.score-display span {
+    font-weight: bold;
+    color: var(--primary-color);
+    font-size: 1.3em;
+}
+
+/* Instructions */
+.instructions {
+    margin-top: 20px;
+    padding: 15px;
+    background: var(--bg-medium);
+    border-radius: 10px;
+    text-align: left;
+}
+
+.instructions h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.instructions p {
+    margin: 5px 0;
+    color: var(--text-secondary);
+    font-size: 0.95em;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2em;
+    }
+    
+    .container {
+        padding: 20px;
+    }
+    
+    .controls {
+        gap: 10px;
+        padding: 15px;
+    }
+    
+    .control-group {
+        font-size: 0.85em;
+    }
+    
+    button {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+    
+    #gameCanvas {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    .score-display {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* Animations */
+button:active {
+    transform: scale(0.95);
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐍 Snake Game</h1>
+        
+        <!-- Customization Panel -->
+        <div class="controls">
+            <div class="control-group">
+                <label for="snakeColor">Snake Color:</label>
+                <input type="color" id="snakeColor" value="#4CAF50">
+            </div>
+            
+            <div class="control-group">
+                <label for="foodColor">Food Color:</label>
+                <input type="color" id="foodColor" value="#FF5722">
+            </div>
+            
+            <div class="control-group">
+                <label for="bgColor">Background:</label>
+                <input type="color" id="bgColor" value="#1a1a1a">
+            </div>
+            
+            <div class="control-group">
+                <label for="speed">Speed:</label>
+                <select id="speed">
+                    <option value="150">Slow</option>
+                    <option value="100" selected>Normal</option>
+                    <option value="50">Fast</option>
+                </select>
+            </div>
+            
+            <button id="startBtn">Start Game</button>
+            <button id="resetBtn">Reset</button>
+        </div>
+        
+        <!-- Game Canvas -->
+        <canvas id="gameCanvas" width="400" height="400"></canvas>
+        
+        <!-- Score Display -->
+        <div class="score-display">
+            <p>Score: <span id="score">0</span></p>
+            <p>High Score: <span id="highScore">0</span></p>
+        </div>
+        
+        <!-- Instructions -->
+        <div class="instructions">
+            <h3>How to Play:</h3>
+            <p>🎮 Use Arrow Keys or WASD to control the snake</p>
+            <p>🍎 Eat the food to grow and gain points</p>
+            <p>⚠️ Don't hit the walls or yourself!</p>
+        </div>
+    </div>
+    
+    <script src="snake.js"></script>
+</body>
+</html>

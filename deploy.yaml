@@ -1,0 +1,61 @@
+---
+# SIMPLE STATIC SNAKE GAME - NO DOCKER BUILDING REQUIRED!
+# This deployment uses nginx to serve static files downloaded directly from GitHub
+# Perfect for workshops - no Docker Hub, no building, super fast!
+
+version: "2.0"
+
+services:
+  web:
+    # Use lightweight nginx image (already public, no building needed!)
+    image: nginx:alpine
+    
+    # Download files from GitHub and serve them
+    command:
+      - sh
+      - -c
+      - |
+        echo "🐍 Downloading Snake Game files from GitHub..."
+        cd /usr/share/nginx/html
+        
+        # Download your files (UPDATE THE URL WITH YOUR GITHUB USERNAME!)
+        wget -q https://raw.githubusercontent.com/ilovehhhyn/snake-game/main/index.html
+        wget -q https://raw.githubusercontent.com/ilovehhhyn/snake-game/main/snake.js
+        
+        echo "Files downloaded! Starting web server..."
+        nginx -g 'daemon off;'
+    
+    expose:
+      - port: 80
+        as: 80
+        to:
+          - global: true
+
+profiles:
+  compute:
+    web:
+      resources:
+        cpu:
+          units: 0.1          # Only 0.1 CPU needed for static files!
+        memory:
+          size: 128Mi         # Only 128MB RAM needed!
+        storage:
+          size: 256Mi         # Minimal storage
+
+  placement:
+    akash:
+      attributes:
+        host: akash
+      signedBy:
+        anyOf:
+          - "akash1365yvmc4s7awdyj3n2sav7xfx76adc6dnmlx63"
+      pricing:
+        web:
+          denom: uakt
+          amount: 500         # Lower price! (~$1-2/month instead of $2-5)
+
+deployment:
+  web:
+    akash:
+      profile: web
+      count: 1

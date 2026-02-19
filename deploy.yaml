@@ -19,8 +19,8 @@ services:
         cd /usr/share/nginx/html
         
         # Download your files (UPDATE THE URL WITH YOUR GITHUB USERNAME!)
-        wget -q https://raw.githubusercontent.com/ilovehhhyn/snake-simple-static/main/index.html
-        wget -q https://raw.githubusercontent.com/ilovehhhyn/snake-simple-static/main/snake.js
+        wget -q https://raw.githubusercontent.com/heidzehu/snake-simple-static/main/index.html
+        wget -q https://raw.githubusercontent.com/heidzehu/snake-simple-static/main/snake.js
         
         echo "Files downloaded! Starting web server..."
         nginx -g 'daemon off;'
